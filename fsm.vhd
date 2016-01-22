@@ -18,7 +18,17 @@ constant SLASH_CHARACTER : std_logic_vector(7 downto 0) := "00101111";
 constant STAR_CHARACTER : std_logic_vector(7 downto 0) := "00101010";
 constant NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
 
-type comment is (no_comment, block_comment, line_comment);
+constant IN_COMMENT : std_logic := '0';
+constant NO_COMMENT : std_logic := '1';
+
+type comment_state is (no_comment, block_comment, line_comment);
+type comment_start is (backslash, other);
+type comment_block is (star, other);
+
+signal state : comment_state := no_comment;
+signal begin_comment : comment_start := other;
+signal block_state : comment_block := other;
+
 
 begin
 
@@ -26,6 +36,46 @@ begin
 process (clk, reset)
 begin
     output <= clk;
+    if reset = '1' then
+        state <= no_comment;
+        begin_comment <= other;
+    elsif rising_edge(clk) then
+        case state is 
+            when no_comment =>
+                case begin_comment is
+                    when other =>
+                        if input = SLASH_CHARACTER then
+                            begin_comment <= backslash;
+                        end if;
+                    when backslash =>
+                        if input = SLASH_CHARACTER then
+                            state <= line_comment;
+                        elsif input = STAR_CHARACTER then
+                            state <= block_comment;
+                        end if;
+                        begin_comment <= other;
+                end case; 
+                output <= NO_COMMENT;
+            when block_comment =>
+                case block_state is
+                    when other =>
+                        if input = STAR_CHARACTER then
+                            block_state <= star;
+                        end if;
+                    when star =>
+                        block_state <= other;
+                        if input = SLASH_CHARACTER then
+                            state <= no_comment;
+                        end if;
+                end case;
+                output <= IN_COMMENT;
+            when line_comment =>
+                if input = NEW_LINE_CHARACTER then
+                    state <= no_comment;
+                end if;
+                output <= IN_COMMENT;
+        end case;
+    end if
 end process;
 
 end behavioral;
