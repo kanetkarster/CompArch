@@ -33,17 +33,24 @@ begin
 -- Insert your processes here
 process (clk, reset)
 begin
+    -- resets states and output
     if reset = '1' then
         state <= in_code;
         block_state <= other;
 	output <= NO_COMMENT;
     elsif rising_edge(clk) then
         case state is 
+            -- in normal code, we wait for a potential start
+            -- of a comment, a `/` character
             when in_code =>
                 if input = SLASH_CHARACTER then
                     state <= comment_start;
                 end if;
                 output <= NO_COMMENT;
+            -- After we've seen a `/`, we keep a lookout for a
+            -- `/` or a `*`, which would start a line or block
+            -- comment, respectively.
+            -- Otherwise, we return to the `in_code` state
             when comment_start =>
 		if input = SLASH_CHARACTER then
                         state <= line_comment;
@@ -53,6 +60,9 @@ begin
                         state <= in_code;
                 end if;
                 output <= NO_COMMENT;
+            -- When we're in a block comment, we wait for a
+            -- `*`, which will change the state. If a star is 
+            -- found, we wait for a `/`, which ends the comment
             when block_comment =>
                 case block_state is
                     when other =>
@@ -66,6 +76,8 @@ begin
 			block_state <= other;
                 end case;
                 output <= IN_COMMENT;
+            -- When we're in a line comment, we wait for a
+            -- `\n`, which will end the comment
             when line_comment =>
                 if input = NEW_LINE_CHARACTER then
                     state <= in_code;
