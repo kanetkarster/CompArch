@@ -9,7 +9,7 @@ z2
 cModel Technology
 dC:/altera/15.0
 Ecomments_fsm
-Z0 w1453570089
+Z0 w1453573900
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
@@ -22,9 +22,9 @@ Vc1Wc<M<>:0>4Dk1@zT]1N0
 !s100 8=ZD8]48;k_fm406>Zj^M1
 Z7 OV;C;10.3d;59
 32
-Z8 !s110 1453570092
+Z8 !s110 1453574968
 !i10b 1
-Z9 !s108 1453570092.725000
+Z9 !s108 1453574968.900000
 Z10 !s90 -reportprogress|300|fsm.vhd|
 Z11 !s107 fsm.vhd|
 !i113 1
@@ -48,7 +48,7 @@ R11
 !i113 1
 R12
 Efsm_tb
-Z13 w1453568916
+Z13 w1453574953
 R2
 R3
 R4
@@ -60,9 +60,9 @@ VU[B`;UO895C@51iMBJC:Q3
 !s100 RKDUZ0cXoY6_4:LXVza1h2
 R7
 32
-Z16 !s110 1453570093
+Z16 !s110 1453574969
 !i10b 1
-Z17 !s108 1453570093.193000
+Z17 !s108 1453574969.399000
 Z18 !s90 -reportprogress|300|fsm_tb.vhd|
 Z19 !s107 fsm_tb.vhd|
 !i113 1
@@ -70,11 +70,11 @@ R12
 Abehaviour
 R2
 R3
-Z20 DEx4 work 6 fsm_tb 0 22 U[B`;UO895C@51iMBJC:Q3
-l26
+DEx4 work 6 fsm_tb 0 22 U[B`;UO895C@51iMBJC:Q3
+l38
 L7
-Z21 VJOOaE25]nedoflBfGPHKY3
-Z22 !s100 LUEL<7@?5`?83YW]B6?5`1
+Vj<@<AB[0C1kDAY=_3UNOF3
+Z20 !s100 `;3KDHdm34@H8>k@I;<P41
 R7
 32
 R16

@@ -14,14 +14,26 @@ PORT (clk : in std_logic;
   );
 END COMPONENT;
 
+--Types for char and string
+subtype char is std_logic_vector(7 downto 0);
+type str is array (8 downto 0) of char;
+
 --The input signals with their initial values
 SIGNAL clk, s_reset, s_output: STD_LOGIC := '0';
 SIGNAL s_input: std_logic_vector(7 downto 0) := (others => '0');
 
 CONSTANT clk_period : time := 1 ns;
-CONSTANT SLASH_CHARACTER : std_logic_vector(7 downto 0) := "00101111";
-CONSTANT STAR_CHARACTER : std_logic_vector(7 downto 0) := "00101010";
-CONSTANT NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
+
+CONSTANT SLASH_CHARACTER : char := "00101111";
+CONSTANT STAR_CHARACTER : char := "00101010";
+CONSTANT NEW_LINE_CHARACTER : char := "00001010";
+CONSTANT CHAR_A : char := "01000001";
+CONSTANT CHAR_B : char := "01000010";
+
+
+
+signal ALL_CODE : str := (CHAR_A, CHAR_B, CHAR_A, CHAR_A, CHAR_B, CHAR_A, CHAR_B, CHAR_A, CHAR_A);
+signal ALL_COMMENT : str := (SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER);
 
 BEGIN
 dut: comments_fsm
@@ -45,6 +57,33 @@ BEGIN
 	ASSERT (s_output = '0') REPORT "When reading a meaningless character, the output should be '0'" SEVERITY ERROR;
 	REPORT "_______________________";
     
+	REPORT "All Slash characters, should stay '1'";
+	FOR i IN 0 TO 1 loop
+		s_input <= ALL_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+		ASSERT (s_output = '0') REPORT "Before Comment, should be 0" SEVERITY ERROR;
+	END LOOP; --i
+	FOR i IN 2 TO 8 loop
+		s_input <= ALL_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+		ASSERT (s_output = '1') REPORT "In Comment, should be 1" SEVERITY ERROR;
+	END LOOP; --i
+	REPORT "_______________________";
+
+	s_reset <= '1';
+	WAIT FOR 1 * clk_period;
+	s_reset <= '0';
+	WAIT FOR 1 * clk_period;
+	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
+	
+	REPORT "All Code, should stay '0'";
+	FOR i IN 0 TO 8 loop
+		s_input <= ALL_CODE(i);
+		ASSERT (s_output = '0') REPORT "When there are no comments, the output should be '0'" SEVERITY ERROR;
+		WAIT FOR 1 * clk_period;
+	END LOOP; --i
+	REPORT "_______________________";
+
 	WAIT;
 END PROCESS stim_process;
 END;
