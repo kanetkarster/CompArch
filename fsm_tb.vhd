@@ -38,7 +38,7 @@ signal ALL_LN_COMMENT : str := (SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTE
 signal PART_LN_COMMENT: str := (CHAR_A, SLASH_CHARACTER, SLASH_CHARACTER, CHAR_A, CHAR_B, CHAR_A, NEW_LINE_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER);
 
 signal ALL_BLK_COMMENT: str := (SLASH_CHARACTER, STAR_CHARACTER, CHAR_A, CHAR_B, CHAR_A, NEW_LINE_CHARACTER, CHAR_B, STAR_CHARACTER, SLASH_CHARACTER);
-signal PART_BLK_COMMENT: str := (CHAR_A, CHAR_B, SLASH_CHARACTER, STAR_CHARACTER, CHAR_A, NEW_LINE_CHARACTER, STAR_CHARACTER, SLASH_CHARACTER, CHAR_B);
+signal PART_BLK_COMMENT: str := (CHAR_A, CHAR_B, SLASH_CHARACTER, STAR_CHARACTER, CHAR_A, CHAR_B, STAR_CHARACTER, SLASH_CHARACTER, CHAR_B);
 
 BEGIN
 dut: comments_fsm
@@ -63,7 +63,7 @@ BEGIN
 	REPORT "_______________________";
     
 	-- Making the entire string part of a comment
-	REPORT "All Slash characters, should stay '1'";
+	REPORT "Tests ALL_LN_COMMENT, which is a typical comment";
 	FOR i IN 8 DOWNTO 7 loop
 		s_input <= ALL_LN_COMMENT(i);
                 WAIT FOR 1 * clk_period;
@@ -81,7 +81,7 @@ BEGIN
 	s_reset <= '0';
 	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
 	
-	REPORT "All Code, should stay '0'";
+	REPORT "Tests ALL_CODE, should stay '0'";
 	FOR i IN 8 DOWNTO 0 loop
 		s_input <= ALL_CODE(i);
 		WAIT FOR 1 * clk_period;
@@ -94,7 +94,7 @@ BEGIN
 	s_reset <= '0';
 	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
 
-	REPORT "Some Code, Followed by a new line, and then more code";
+	REPORT "Tests PART_LN_COMMENT. Some Code, Followed by a line comment, and then more code";
 	FOR i IN 8 DOWNTO 6 loop
 		s_input <= PART_LN_COMMENT(i);
 		WAIT FOR 1 * clk_period;
@@ -117,11 +117,41 @@ BEGIN
 	s_reset <= '0';
 	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
 
+	REPORT "Tests ALL_BLK_COMMENT, which is a typical comment";
+	FOR i IN 8 DOWNTO 7 loop
+		s_input <= ALL_BLK_COMMENT(i);
+                WAIT FOR 1 * clk_period;
+		ASSERT (s_output = '0') REPORT "Before Comment, should be 0" SEVERITY ERROR;	
+	END LOOP; --i
+	FOR i IN 6 DOWNTO 0 loop
+		s_input <= ALL_BLK_COMMENT(i);
+                WAIT FOR 1 * clk_period;
+		ASSERT (s_output = '1') REPORT "In Comment, should be 1" SEVERITY ERROR;
+	END LOOP; --i
+	REPORT "_______________________";
+
 	s_reset <= '1';
 	WAIT FOR 1 * clk_period;
 	s_reset <= '0';
 	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
 
+	REPORT "Tests PART_BLK_COMMENT, code followed by comment, followed by code";
+	FOR i IN 8 DOWNTO 5 loop
+		s_input <= PART_BLK_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+		ASSERT (s_output = '0') REPORT "Before Comment Starts, should be '0'" SEVERITY ERROR;
+	END LOOP; --i
+	FOR i IN 4 DOWNTO 1 loop
+		s_input <= PART_BLK_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+                ASSERT (s_output = '1') REPORT "In Comment, should be 1" SEVERITY ERROR;
+	END LOOP; --i
+
+	s_input <= PART_BLK_COMMENT(0);
+	WAIT FOR 1 * clk_period;
+        ASSERT (s_output = '0') REPORT "After Comment, should be 0" SEVERITY ERROR;
+
+	REPORT "_______________________";
 	WAIT;
 END PROCESS stim_process;
 END;

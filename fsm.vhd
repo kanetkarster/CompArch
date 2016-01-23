@@ -60,10 +60,10 @@ begin
                             block_state <= star;
                         end if;
                     when star =>
-                        block_state <= other;
                         if input = SLASH_CHARACTER then
                             state <= in_code;
                         end if;
+			block_state <= other;
                 end case;
                 output <= IN_COMMENT;
             when line_comment =>
