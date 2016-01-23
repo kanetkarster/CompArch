@@ -21,11 +21,11 @@ constant NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
 constant IN_COMMENT : std_logic := '0';
 constant NO_COMMENT : std_logic := '1';
 
-type comment_state is (no_comment, block_comment, line_comment);
+type comment_state is (in_code, block_comment, line_comment);
 type comment_start is (backslash, other);
 type comment_block is (star, other);
 
-signal state : comment_state := no_comment;
+signal state : comment_state := in_code;
 signal begin_comment : comment_start := other;
 signal block_state : comment_block := other;
 
@@ -37,11 +37,11 @@ process (clk, reset)
 begin
     output <= clk;
     if reset = '1' then
-        state <= no_comment;
+        state <= in_code;
         begin_comment <= other;
     elsif rising_edge(clk) then
         case state is 
-            when no_comment =>
+            when in_code =>
                 case begin_comment is
                     when other =>
                         if input = SLASH_CHARACTER then
@@ -65,17 +65,17 @@ begin
                     when star =>
                         block_state <= other;
                         if input = SLASH_CHARACTER then
-                            state <= no_comment;
+                            state <= in_code;
                         end if;
                 end case;
                 output <= IN_COMMENT;
             when line_comment =>
                 if input = NEW_LINE_CHARACTER then
-                    state <= no_comment;
+                    state <= in_code;
                 end if;
                 output <= IN_COMMENT;
         end case;
-    end if
+    end if;
 end process;
 
 end behavioral;
