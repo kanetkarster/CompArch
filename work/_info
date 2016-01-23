@@ -9,36 +9,35 @@ z2
 cModel Technology
 dC:/altera/15.0
 Ecomments_fsm
-Z0 w1453569181
+Z0 w1453570089
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
 Z4 dC:/Users/skanet1/Arch/A1
-Z5 8C:/Users/skanet1/Arch/A1/fsm.vhd
-Z6 FC:/Users/skanet1/Arch/A1/fsm.vhd
+Z5 8fsm.vhd
+Z6 Ffsm.vhd
 l0
 L6
-V8QQAeCVh2hfo5Y`ACG_0[1
+Vc1Wc<M<>:0>4Dk1@zT]1N0
 !s100 8=ZD8]48;k_fm406>Zj^M1
 Z7 OV;C;10.3d;59
 32
-Z8 !s110 1453569184
+Z8 !s110 1453570092
 !i10b 1
-Z9 !s108 1453569184.871000
-Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/skanet1/Arch/A1/fsm.vhd|
-Z11 !s107 C:/Users/skanet1/Arch/A1/fsm.vhd|
+Z9 !s108 1453570092.725000
+Z10 !s90 -reportprogress|300|fsm.vhd|
+Z11 !s107 fsm.vhd|
 !i113 1
-Z12 o-work work -2002 -explicit
-Z13 tExplicit 1
+Z12 tExplicit 1
 Abehavioral
 R1
 R2
 R3
-DEx4 work 12 comments_fsm 0 22 8QQAeCVh2hfo5Y`ACG_0[1
+DEx4 work 12 comments_fsm 0 22 c1Wc<M<>:0>4Dk1@zT]1N0
 l33
 L14
-VA5I<abMnGhKX>36BFVT5:0
-!s100 [T2jnZ?Z;fZz>9G8P:BUj2
+VmUNGZ[CP=5SBYfJ5eUHk61
+!s100 KZN[??SdP@BBD`>>1kPYO2
 R7
 32
 R8
@@ -48,43 +47,40 @@ R10
 R11
 !i113 1
 R12
-R13
 Efsm_tb
-Z14 w1453568916
+Z13 w1453568916
 R2
 R3
 R4
-Z15 8C:/Users/skanet1/Arch/A1/fsm_tb.vhd
-Z16 FC:/Users/skanet1/Arch/A1/fsm_tb.vhd
+Z14 8fsm_tb.vhd
+Z15 Ffsm_tb.vhd
 l0
 L4
-VQnQRIGJI^5U7RMH[M>HWV0
+VU[B`;UO895C@51iMBJC:Q3
 !s100 RKDUZ0cXoY6_4:LXVza1h2
 R7
 32
-R8
+Z16 !s110 1453570093
 !i10b 1
-Z17 !s108 1453569184.403000
-Z18 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/skanet1/Arch/A1/fsm_tb.vhd|
-Z19 !s107 C:/Users/skanet1/Arch/A1/fsm_tb.vhd|
+Z17 !s108 1453570093.193000
+Z18 !s90 -reportprogress|300|fsm_tb.vhd|
+Z19 !s107 fsm_tb.vhd|
 !i113 1
 R12
-R13
 Abehaviour
 R2
 R3
-DEx4 work 6 fsm_tb 0 22 QnQRIGJI^5U7RMH[M>HWV0
+Z20 DEx4 work 6 fsm_tb 0 22 U[B`;UO895C@51iMBJC:Q3
 l26
 L7
-V78z;V5@2B^zMbOe9@EoMK3
-!s100 LUEL<7@?5`?83YW]B6?5`1
+Z21 VJOOaE25]nedoflBfGPHKY3
+Z22 !s100 LUEL<7@?5`?83YW]B6?5`1
 R7
 32
-R8
+R16
 !i10b 1
 R17
 R18
 R19
 !i113 1
 R12
-R13

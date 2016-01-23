@@ -18,8 +18,8 @@ constant SLASH_CHARACTER : std_logic_vector(7 downto 0) := "00101111";
 constant STAR_CHARACTER : std_logic_vector(7 downto 0) := "00101010";
 constant NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
 
-constant IN_COMMENT : std_logic := '0';
-constant NO_COMMENT : std_logic := '1';
+constant IN_COMMENT : std_logic := '1';
+constant NO_COMMENT : std_logic := '0';
 
 type comment_state is (in_code, block_comment, line_comment);
 type comment_start is (backslash, other);
@@ -35,7 +35,6 @@ begin
 -- Insert your processes here
 process (clk, reset)
 begin
-    output <= clk;
     if reset = '1' then
         state <= in_code;
         begin_comment <= other;
