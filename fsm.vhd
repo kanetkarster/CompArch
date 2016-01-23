@@ -21,12 +21,10 @@ constant NEW_LINE_CHARACTER : std_logic_vector(7 downto 0) := "00001010";
 constant IN_COMMENT : std_logic := '1';
 constant NO_COMMENT : std_logic := '0';
 
-type comment_state is (in_code, block_comment, line_comment);
-type comment_start is (backslash, other);
+type comment_state is (in_code, comment_start, block_comment, line_comment);
 type comment_block is (star, other);
 
 signal state : comment_state := in_code;
-signal begin_comment : comment_start := other;
 signal block_state : comment_block := other;
 
 
@@ -37,23 +35,23 @@ process (clk, reset)
 begin
     if reset = '1' then
         state <= in_code;
-        begin_comment <= other;
+        block_state <= other;
+	output <= NO_COMMENT;
     elsif rising_edge(clk) then
         case state is 
             when in_code =>
-                case begin_comment is
-                    when other =>
-                        if input = SLASH_CHARACTER then
-                            begin_comment <= backslash;
-                        end if;
-                    when backslash =>
-                        if input = SLASH_CHARACTER then
-                            state <= line_comment;
-                        elsif input = STAR_CHARACTER then
-                            state <= block_comment;
-                        end if;
-                        begin_comment <= other;
-                end case; 
+                if input = SLASH_CHARACTER then
+                    state <= comment_start;
+                end if;
+                output <= NO_COMMENT;
+            when comment_start =>
+		if input = SLASH_CHARACTER then
+                        state <= line_comment;
+                elsif input = STAR_CHARACTER then
+                        state <= block_comment;
+                else
+                        state <= in_code;
+                end if;
                 output <= NO_COMMENT;
             when block_comment =>
                 case block_state is
