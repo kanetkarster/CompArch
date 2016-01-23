@@ -34,7 +34,7 @@ CONSTANT CHAR_B : char := "01000010";
 
 signal ALL_CODE : str := (CHAR_A, CHAR_B, CHAR_A, CHAR_A, CHAR_B, CHAR_A, CHAR_B, CHAR_A, CHAR_A);
 signal ALL_LN_COMMENT : str := (SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER);
-signal PART_LN_COMMENT: str := (CHAR_B, SLASH_CHARACTER, SLASH_CHARACTER, CHAR_B, CHAR_A, CHAR_B, CHAR_A, CHAR_A, CHAR_B);
+signal PART_LN_COMMENT: str := (CHAR_A, SLASH_CHARACTER, SLASH_CHARACTER, CHAR_A, CHAR_B, CHAR_A, NEW_LINE_CHARACTER, SLASH_CHARACTER, SLASH_CHARACTER);
 
 BEGIN
 dut: comments_fsm
@@ -84,29 +84,28 @@ BEGIN
 	END LOOP; --i
 	REPORT "_______________________";
 
---	s_reset <= '1';
---	WAIT FOR 1 * clk_period;
---	s_reset <= '0';
---	WAIT FOR 1 * clk_period;
---	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
---
---	REPORT "Some Code, Followed by a new line, and then more code";
---	FOR i IN 0 TO 2 loop
---		s_input <= PART_LN_COMMENT(i);
---		WAIT FOR 1 * clk_period;
---		ASSERT (s_output = '0') REPORT "Before Comment Starts, should be '0'" SEVERITY ERROR;
---	END LOOP; --i
---	FOR i IN 3 TO 6 loop
---		s_input <= PART_LN_COMMENT(i);
---		WAIT FOR 1 * clk_period;
---                ASSERT (s_output = '1') REPORT "In Comment, should be 1" SEVERITY ERROR;
---	END LOOP; --i
---	FOR i IN 7 TO 8 loop
---		s_input <= PART_LN_COMMENT(i);
---		WAIT FOR 1 * clk_period;
---		ASSERT (s_output = '0') REPORT "After Comment Ended, should be '0'" SEVERITY ERROR;
---	END LOOP; --i
---	REPORT "_______________________";
+	s_reset <= '1';
+	WAIT FOR 1 * clk_period;
+	s_reset <= '0';
+	ASSERT (s_output = '0') REPORT "Couldn't Reset, should be '0'" SEVERITY ERROR;
+
+	REPORT "Some Code, Followed by a new line, and then more code";
+	FOR i IN 8 DOWNTO 6 loop
+		s_input <= PART_LN_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+		ASSERT (s_output = '0') REPORT "Before Comment Starts, should be '0'" SEVERITY ERROR;
+	END LOOP; --i
+	FOR i IN 5 DOWNTO 2 loop
+		s_input <= PART_LN_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+                ASSERT (s_output = '1') REPORT "In Comment, should be 1" SEVERITY ERROR;
+	END LOOP; --i
+	FOR i IN 1 DOWNTO 0 loop
+		s_input <= PART_LN_COMMENT(i);
+		WAIT FOR 1 * clk_period;
+                ASSERT (s_output = '0') REPORT "After Comment, should be 0" SEVERITY ERROR;
+	END LOOP; --i
+	REPORT "_______________________";
 
 	WAIT;
 END PROCESS stim_process;
